@@ -11,10 +11,23 @@ QUESTS = (
     ('L', 'Lore'),
 )
 
+class Merchant(models.Model):
+    name = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    description = models.TextField(max_length=250)
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse('merchants_detail', kwargs={'pk': self.id})
+
 class Trinket(models.Model):
     name = models.CharField(max_length=100)
     abilities = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
+
+    merchants = models.ManyToManyField(Merchant)
 
     def __str__(self):
         return self.name
@@ -39,23 +52,3 @@ class Uses(models.Model):
     class Meta:
         ordering = ['-date']
 
-class GoblinMerchant(models.Model):
-    name = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    description = models.TextField(max_length=250)
-
-    trinkets = models.ManyToManyField(Trinket, through='TrinketInventory')
-
-    def __str__(self):
-        return self.name
-    
-    def get_absolute_url(self):
-        return reverse('merchant_detail', kwargs={'merchant_id': self.id})
-
-class TrinketInventory(models.Model):
-    trinket = models.ForeignKey(Trinket, on_delete=models.CASCADE)
-    merchant = models.ForeignKey(GoblinMerchant, on_delete=models.CASCADE)
-    price = models.PositiveIntegerField()
-
-    def __str__(self):
-        return f"{self.trinket.name} - {self.merchant.name}"

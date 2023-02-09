@@ -10,5 +10,10 @@ urlpatterns = [
     path('trinkets/<int:pk>/update/', views.TrinketUpdate.as_view(), name='trinkets_update'),
     path('trinkets/<int:pk>/delete/', views.TrinketDelete.as_view(), name='trinkets_delete'),
     path('trinkets/<int:trinket_id>/add_uses/', views.add_uses, name='add_uses'),
+    path('trinkets/<int:trinket_id>/assoc_merchant/<int:merchant_id>/', views.assoc_merchant, name='assoc_merchant'),
+    path('trinkets/<int:trinket_id>/unassoc_merchant/<int:merchant_id>/', views.unassoc_merchant, name='unassoc_merchant'),
+    path('merchants/', views.MerchantList.as_view(), name='merchants_index'),
+    path('merchants/<int:pk>/', views.MerchantDetail.as_view(), name='merchants_detail'),
+    path('merchants/create/', views.MerchantCreate.as_view(), name='merchants_create'),
 ]
 
